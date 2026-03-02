@@ -469,11 +469,7 @@
   var chatBody = byId("chatBody");
   var chatActions = byId("chatActions");
   var chatSub = byId("chatSub");
-
-  var chatFree = byId("chatFree");
-  var chatSend = byId("chatSend");
-
-  var state = {
+var state = {
     step: 0,
     answers: { hizmet:"", teslim:"", butce:"", ad:"", telefon:"", email:"", not:"" },
     customHizmet: ""
@@ -531,23 +527,6 @@
     if (chatBody && chatBody.children.length === 0) resetChat();
   }
   function closeChat() { if (chat) chat.hidden = true; }
-
-  function sendFreeNote(){
-    if (!chatFree) return;
-    var t = (chatFree.value || "").trim();
-    if (!t) return;
-    chatFree.value = "";
-    addMsg(t, "me");
-    if (!state.answers.not) state.answers.not = t;
-    else state.answers.not = state.answers.not + " | " + t;
-    typing(380).then(function(){ addMsg("Notunuzu aldım ✅ Devam edelim.", "bot"); });
-  }
-  if (chatSend){ chatSend.addEventListener("click", sendFreeNote); }
-  if (chatFree){
-    chatFree.addEventListener("keydown", function(e){
-      if (e.key === "Enter"){ e.preventDefault(); sendFreeNote(); }
-    });
-  }
 
 
   if (chatFab) chatFab.addEventListener("click", function () {
