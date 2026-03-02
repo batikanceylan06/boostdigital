@@ -2036,3 +2036,269 @@ input:focus, select:focus, textarea:focus, .chatInput:focus, .chatInput2:focus, 
 #formStatus{
   min-height: 0 !important;
 }
+
+
+
+/* === MULTI-DEVICE RESPONSIVE V2 === */
+/* Targets:
+   - iPhone: 11 / 11 Pro / 11 Pro Max, SE (2/3/1), 12 mini..16 Pro Max, 17 Pro.. (Safari/Chrome iOS)
+   - iPad Air 1
+   - Samsung Galaxy S20 FE..S25 Ultra/Edge/FE
+   - General Android (Chrome) */
+
+/* Baseline safety */
+html{
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body{
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+}
+img, video, canvas, svg{
+  max-width: 100%;
+  height: auto;
+}
+.container{
+  /* consistent centered layout on all phones/tablets */
+  padding-left: max(16px, env(safe-area-inset-left, 0px)) !important;
+  padding-right: max(16px, env(safe-area-inset-right, 0px)) !important;
+}
+
+/* Safe-area bottom: quickbar + floating buttons should never overlap content */
+:root{
+  --float-stack: 210px; /* quickbar + wa + chatfab stack */
+}
+body{
+  padding-bottom: calc(var(--float-stack) + env(safe-area-inset-bottom, 0px));
+}
+
+/* iOS: prevent zoom on input focus (must be >=16px) */
+input, select, textarea,
+.chatInput, .chatInput2,
+.cs__btn, .cs__search{
+  font-size: 16px !important;
+}
+
+/* Viewport units (iOS/Android) */
+.page{
+  min-height: 100svh;
+  min-height: 100dvh;
+}
+
+/* NAV: avoid overflow on small widths */
+.nav__inner{
+  gap: 10px !important;
+}
+.brand{
+  min-width: 0;
+}
+.brand__text{
+  min-width: 0;
+}
+.brand__name, .brand__tag{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 52vw;
+}
+@media (max-width: 980px){
+  .menu{ display: none !important; }
+  .burger{ display: inline-flex !important; }
+}
+.mobile{
+  padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  max-height: calc(100svh - 120px);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* HERO: always clean on phones */
+.hero2__grid{
+  grid-template-columns: 1fr !important;
+  gap: 16px !important;
+}
+.hero2__copy h1{
+  font-size: clamp(28px, 7.2vw, 46px);
+  line-height: 1.06;
+}
+.hero2__copy p{
+  font-size: 16px;
+  line-height: 1.65;
+}
+.hero2__cta{
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.hero2__cta .btn{
+  width: 100%;
+}
+@media (min-width: 520px){
+  .hero2__cta .btn{ width: auto; }
+}
+
+/* Small line wraps nicely */
+.miniLine{
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.miniLine__item{
+  width: 100%;
+}
+@media (min-width: 520px){
+  .miniLine__item{ width: auto; }
+}
+
+/* Grids: phones 1 col, big phones 2 col, desktop 4 col */
+.grid--4{
+  grid-template-columns: 1fr !important;
+}
+@media (min-width: 680px){
+  .grid--4{ grid-template-columns: 1fr 1fr !important; }
+}
+@media (min-width: 1100px){
+  .grid--4{ grid-template-columns: repeat(4, 1fr) !important; }
+}
+
+/* Service rows always stack on phones */
+.serviceRow{
+  grid-template-columns: 1fr !important;
+}
+.serviceRow__img{
+  min-height: 180px;
+}
+@media (min-width: 980px){
+  .serviceRow{ grid-template-columns: .95fr 1.05fr !important; }
+  .serviceRow__img{ min-height: 100%; }
+}
+
+/* Pricing: prevent long names from pushing layout */
+.priceRow__name{
+  max-width: 100%;
+  word-break: break-word;
+}
+.priceRow__right{
+  flex-wrap: wrap;
+}
+.priceRow__price{
+  white-space: nowrap;
+}
+@media (max-width: 420px){
+  .priceRow__price{ white-space: normal; }
+  .selectBtn{ width: 100%; justify-content: center; }
+}
+
+/* Custom Select (mobile sheet) */
+@media (max-width: 520px){
+  .cs__panel{
+    position: fixed !important;
+    left: 12px !important;
+    right: 12px !important;
+    top: calc(env(safe-area-inset-top, 0px) + 90px) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 12px) !important;
+    max-height: none !important;
+  }
+  .cs__list{
+    max-height: none !important;
+    height: calc(100svh - 260px);
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* QUICKBAR: on small screens it must NOT wrap into 2-3 lines.
+   Make it horizontal-scroll with snap. */
+.quickbar__inner{
+  flex-wrap: nowrap !important;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  gap: 10px;
+  padding-bottom: 6px;
+}
+.quickbar__label{
+  flex: 0 0 auto;
+}
+.qBtn{
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  white-space: nowrap;
+}
+.quickbar__inner::-webkit-scrollbar{ height: 8px; }
+.quickbar__inner::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,.10);
+  border-radius: 999px;
+}
+
+/* Floating buttons (safe area aware) */
+.wa{
+  bottom: calc(62px + env(safe-area-inset-bottom, 0px)) !important;
+}
+.chatFab{
+  bottom: calc(120px + env(safe-area-inset-bottom, 0px)) !important;
+}
+.toTop{
+  bottom: calc(156px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+/* CHAT:
+   - Desktop/tablet: right side, vertically centered
+   - Phones: full-width bottom sheet above quickbar */
+@media (min-width: 768px){
+  .chat{
+    position: fixed !important;
+    right: 18px !important;
+    top: 50% !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: translateY(-50%) !important;
+    width: 380px;
+    max-width: calc(100vw - 36px);
+    max-height: calc(100svh - 180px);
+  }
+}
+@media (max-width: 767.98px){
+  .chat{
+    position: fixed !important;
+    left: 12px !important;
+    right: 12px !important;
+    top: auto !important;
+    bottom: calc(190px + env(safe-area-inset-bottom, 0px)) !important;
+    transform: none !important;
+    width: auto !important;
+    max-height: calc(100svh - 260px);
+  }
+}
+
+/* Chat scroll: smooth on iOS */
+.chat__body{
+  -webkit-overflow-scrolling: touch;
+  max-height: 260px;
+}
+@media (max-height: 760px){
+  .chat__body{ max-height: 220px; }
+}
+@media (max-height: 680px){
+  .chat__body{ max-height: 190px; }
+}
+
+/* iPad Air 1 (768x1024): slightly larger paddings */
+@media (min-width: 768px) and (max-width: 1024px){
+  .container{
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+}
+
+/* Ultra small heights (SE landscape etc.): keep quickbar usable */
+@media (max-height: 520px){
+  :root{ --float-stack: 170px; }
+  .chat{ max-height: calc(100svh - 170px); }
+}
+
+/* Prevent accidental horizontal scroll from long marquee */
+.logoMarquee{
+  overflow: hidden;
+}
+.logoMarquee__track{
+  white-space: nowrap;
+}
