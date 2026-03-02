@@ -2089,3 +2089,85 @@ body {
   .chat__body{ max-height: 300px !important; }
 }
 .chat__footer{ display:none !important; }
+
+
+/* === V27 MOBILE FIX === */
+/* Stop any horizontal overflow on iOS/Android */
+html, body {
+  overflow-x: hidden !important;
+  width: 100% !important;
+}
+/* Avoid 100vw traps that create right overflow due to scrollbar/safe-area */
+.page, .section, .nav, .topbar, .footer, .quickbar {
+  max-width: 100% !important;
+}
+
+/* Fix bottom spacing: do NOT inflate body padding (caused layout/overflow) */
+body {
+  padding-bottom: 0 !important;
+}
+/* Instead, add a real spacer after main content so footer + quickbar never overlap */
+.page::after{
+  content:"";
+  display:block;
+  height: calc(120px + env(safe-area-inset-bottom, 0px));
+}
+
+/* Quickbar: fixed height + safe area */
+:root{ --quickbar-h: 74px; }
+.quickbar{
+  height: calc(var(--quickbar-h) + env(safe-area-inset-bottom, 0px)) !important;
+  padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+}
+.quickbar__inner{
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+/* On very small widths: make quickbar scroll without pushing layout */
+.quickbar__inner{
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+.qBtn{ white-space: nowrap; }
+
+/* Floating buttons: anchored above quickbar */
+.wa{ bottom: calc(var(--quickbar-h) + 14px + env(safe-area-inset-bottom, 0px)) !important; }
+.chatFab{ bottom: calc(var(--quickbar-h) + 70px + env(safe-area-inset-bottom, 0px)) !important; }
+.toTop{ bottom: calc(var(--quickbar-h) + 110px + env(safe-area-inset-bottom, 0px)) !important; }
+
+/* Footer on phones: stack columns cleanly */
+@media (max-width: 640px){
+  .footer__grid{
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+  .footer__brand, .footer__menu, .footer__contact{
+    min-width: 0;
+  }
+  .footer__menu a{
+    display:inline-block;
+    padding: 6px 0;
+  }
+}
+
+/* Navbar brand: prevent squeeze + allow wrap without overflow */
+@media (max-width: 520px){
+  .brand__name, .brand__tag{
+    max-width: 60vw !important;
+  }
+  .brand__logo{
+    flex: 0 0 auto;
+  }
+}
+
+/* Form layout: ensure controls never exceed container */
+.formGrid, .formRow, .form, form{
+  max-width: 100%;
+}
+textarea{
+  max-width: 100%;
+}
