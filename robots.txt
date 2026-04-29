@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://boostdigital.com.tr/sitemap.xml
