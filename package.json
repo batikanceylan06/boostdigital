@@ -1,7 +1,0 @@
-{
-  "name": "boost-digital-site",
-  "private": true,
-  "dependencies": {
-    "nodemailer": "^6.9.8"
-  }
-}
